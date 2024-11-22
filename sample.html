@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive VLOOKUP Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+        .search-container input {
+            padding: 8px;
+            font-size: 1rem;
+            margin-right: 10px;
+            width: 300px;
+        }
+        .search-container button {
+            padding: 8px 12px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .result {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .result.not-found {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive VLOOKUP Table</h1>
+        <p>Search for an email in the table to find the associated company.</p>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Enter email (e.g., james@ab.com)">
+            <button onclick="searchTable()">Search</button>
+        </div>
+        
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Company</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>mary@pg.com</td>
+                    <td>Mary</td>
+                    <td>Procter & Gamble</td>
+                </tr>
+                <tr>
+                    <td>james@ab.com</td>
+                    <td>James</td>
+                    <td>Rockwell Automation</td>
+                </tr>
+                <tr>
+                    <td>elizabeth@cogitize.com</td>
+                    <td>Elizabeth</td>
+                    <td>Cogitize</td>
+                </tr>
+                <tr>
+                    <td>ashley@summables.com</td>
+                    <td>Ashley</td>
+                    <td>Summables</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function searchTable() {
+            // Get the input value
+            const searchValue = document.getElementById("searchInput").value.trim().toLowerCase();
+            const table = document.getElementById("dataTable");
+            const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            let result = "Not Found";
+            let found = false;
+
+            // Loop through rows to find the matching email
+            for (let row of rows) {
+                const emailCell = row.cells[0]; // First column (Email)
+                if (emailCell.textContent.toLowerCase() === searchValue) {
+                    result = `Company: ${row.cells[2].textContent}`;
+                    found = true;
+                    break;
+                }
+            }
+
+            // Update the result display
+            const resultDiv = document.getElementById("result");
+            resultDiv.textContent = result;
+            resultDiv.className = found ? "result" : "result not-found";
+        }
+    </script>
+</body>
+</html>
+
+
